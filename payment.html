@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width", initial-scale="1.0">
+    <title>QRIS Payment</title>
+</head>
+<body>
+<style>
+    html, body{
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    body{
+        background: url(qris\ fixed.png);
+        background-size: cover;
+    }
+</style>
+</body>
+<div style="text-align: right; padding: 50px;">
+         <img src="QRIS Code.png" alt="QRIS Payment" style="width: 450px; height: auto;" onclick="handleQrisClick()">
+    </a>
+</div>
+
+<script>
+    function handleQrisClick() {
+        window.open(
+            "https://wa.me/6281398316540?text=Hi!%20I%20just%20paid%20via%20QRIS.%20Here%20is%20my%20screenshot:"
+        );
+
+        window.location.href = "entercode.html";
+    }
+</script>
+<script>
+    if (/Mobi|Android|iPhone|iPad|iPod|Blackberry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        document.body.innerHTML = "<h2 style='text-align:center; margin-top:50px'; Warning : Please open this website on a PC for the best experience.</h2>";
+    }
+</script>
+</html>

@@ -1,0 +1,8 @@
+body{
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.1)20%, rgba(0,0,0,0.1)20%), url(Deo’s\ Photobox\ \(5\).png);
+    background-position: center;
+    background-size: cover;
+    height: 109vh;
+    overflow: hidden;
+}

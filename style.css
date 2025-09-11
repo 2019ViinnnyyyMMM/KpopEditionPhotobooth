@@ -1,0 +1,108 @@
+body{
+    overflow-x: hidden;
+}
+*{
+    padding: 0;
+    margin: 0;
+}
+
+.main{
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.6)50%, rgba(0,0,0,0.6)50%), url(kiwkiw.png);
+    background-position: center;
+    background-size: cover;
+    height: 109vh;
+    overflow: hidden;
+}
+.icon{
+    width: 200px;
+    float: left;
+    height: 70px;
+}
+.menu{
+    width: 400px;
+    float: right;
+    height: 70px;
+    position: relative;
+}
+ul{
+    float: right;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+ul li{
+    list-style: none;
+    margin-left: 62px;
+    margin-top: 27px;
+    font-size: 14px;
+}
+
+ul li a{
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    padding: 14px 16px;
+    color: white;
+    font-family: Poppins;
+    font-weight: bold;
+    transition: 0.4s ease-in-out;
+}
+
+.content{
+    width: 100%;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+}
+.content h2{
+    font-size: 100px;
+    margin-top: 10px;
+}
+.content p{
+    margin: 0px auto;
+    font-weight: 200;
+    line-height: 25px;
+    font-weight: bolder;
+}
+.button-container{
+    position: relative;
+    display: inline-block;
+    text-align: center;
+}
+.cta-text{
+    position: relative;
+    z-index: 2;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+.cta-button{
+    display: inline-block;
+    background-color: #fff;
+    color: black;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 50px;
+    font-size: 14px;
+}
+.preview{
+    margin-top: 40px;
+    text-align: center;
+}
+
+.preview p{
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+video, iframe{
+    border-radius: 10px;
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kpop Edition Photobox</title>
+    <link rel="stylesheet">
+<style>
+    .html, body{
+        background: url(code\ enter.png);
+        background-size: cover;
+    }
+    .centered-content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+        color :transparent;
+    }
+    .access-form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 200px;
+    }
+    .access-form input{
+        background-color: black;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: bold;
+        margin: 10px;
+    }
+    .access-form button{
+        background-color: black;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: bold;
+        margin: 10px;
+    }
+</style>
+</head>
+<body>
+<div class="centered-content">
+    <h1>Hi there, Fella!</h1>
+    <p>Already paid?</p>
+    <p>Please enter the access code down below</p>
+<div class="access-form">
+    <input type="text" id="userCode" placeholder="Enter your access code">
+    <button type="button" onclick="checkCode()">Submit</button>
+</div>
+</div>
+
+<script>
+function checkCode() {
+  const validCodes = ["FDG743", "IUP324", "SCJ207"]; // You create these
+  const userCode = document.getElementById("userCode").value.trim().toUpperCase();
+
+  if (validCodes.includes(userCode)) {
+    sessionStorage.setItem("accessGranted", "true");
+    window.location.href="index-real-webpage.html"; // your full website
+  } else {
+    alert("Invalid code. Please try again.");
+  }
+}
+</script>
+<script>
+    if (/Mobi|Android|iPhone|iPad|iPod|Blackberry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        document.body.innerHTML = "<h2 style='text-align:center; margin-top:50px'; Warning : Please open this website on a PC for the best experience.</h2>";
+    }
+</script>
+</body>
+</html>

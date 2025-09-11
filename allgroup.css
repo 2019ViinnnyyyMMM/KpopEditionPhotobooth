@@ -1,0 +1,65 @@
+body{
+    background-image: url(Deo’s\ Photobox\ \(7\).png);
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 20px;
+    overflow: visible;
+}
+.list{
+    width: 1500px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 600px;
+    gap: 10px;
+}
+.list .item img{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    transition: 0.5s;
+}
+.list .item:hover img{
+    transform: scale(1.2);
+}
+.list .item{
+    color: white;
+    position: relative;
+    transition: 0.5s;
+}
+.list .item .content{
+    position: absolute;
+    top: 0;
+    padding: 20px;
+    transform: translateY(500px);
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 2;
+}
+.list .item:hover .content{
+    opacity: 1;
+    transform: translateY(0);
+}
+.list:hover .item:not(:hover){
+    filter: blur(8px);
+}
+.item{
+    width: 300px;
+    height: 500px;
+    border-radius: 20px;
+    position: relative;
+    overflow: visible;
+    object-fit: cover;
+    flex-shrink: 0;
+    display: block;
+}
+.item a{
+    display: block;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    z-index: 1;
+}
