@@ -194,7 +194,7 @@ function saveToPhotostrip(canvas) {
     }
 };
 
-takePhotoBtn.addEventListener('click', () => {
+document.getElementById('takePhotoBtn').addEventListener('click', () => {
     let countdown = 3;
     timerDisplay.textContent = countdown;
 
@@ -229,11 +229,13 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
         window.location.href = "thanku.html";
     }, 1000);
 });
+});
 </script>
 
 </body>
 
 </html>
+
 
 
 
