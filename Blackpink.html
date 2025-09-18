@@ -11,7 +11,7 @@
         .top-row{display: flex; justify-content: center; gap: 20px; align-items: flex-start; flex-wrap: wrap;}
         .camera-wrap{position: relative; width: 640px; max-width: 100%;}
         video#video{display: block; width: 640px; height: 480px; border: 3px solid #222; border-radius:4px; margin-bottom: 0 auto;transform: scaleX(-1);}
-        #timer{font-size: 2rem; color: black; margin: 10px} 
+        #timer{position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 5rem; font-weight: bold; color: white; text-shadow: 2px 2px 5px black; z-index: 20} 
         canvas#overlay{position: absolute; left: 0; width: 640px; height: 480px; background: transparent; margin-bottom: 10px;}
         #frame {
             display: flex;
@@ -73,7 +73,6 @@
 <br>
 <button id="addStickerBtn" class="custom-button">Add Kpop Idol Sticker</button>
 <button id="takePhotoBtn" class="custom-button">Take Photo</button>
-<button id="startTimer" class="custom-button">Take Photo with Timer</button>
 <br><br>
 
 <div id="photostripContainer" class="photostrip">
@@ -111,16 +110,14 @@ navigator.mediaDevices.getUserMedia({ video: true })
 
 addStickerBtn.addEventListener('click', () => {
     const stickerMenu = document.getElementById('stickerMenu');
-    if (stickerMenu.style.display === 'none' || stickerMenu.style.display === '') {
-        stickerMenu.style.display = 'block';
-    } else {
-        stickerMenu.style.display = 'none';
-    }
+    stickerMenu.style.display = 
+        (stickerMenu.style.display === 'none' || stickerMenu.style.display === '') 
+        ? 'block' : 'none' ;
 });
 
 let selectedSticker = null;
 
-document.querySelectorAll('.stickerOption').forEach((img, index) => {
+document.querySelectorAll('.stickerOption').forEach((img => {
     img.addEventListener('click', () => {
         selectedSticker = img.src;
 
@@ -139,20 +136,14 @@ document.querySelectorAll('.stickerOption').forEach((img, index) => {
         wrapper.appendChild(sticker);
 
         sticker.onload = () => {
-            console.log("Selected sticker:", sticker.src,
-                        "Width:", sticker.naturalWidth,
-                        "Height:", sticker.naturalHeight); 
             const aspectRatio = sticker.naturalWidth / sticker.naturalHeight;
             sticker.style.height = video.offsetHeight + 'px';
-            sticker.style.width = (video.offsetHeight * aspectRatio) + 'px';          
+            sticker.style.width = (video.offsetHeight * aspectRatio) + 'px';
         };
 
         document.getElementById('stickerMenu').style.display = 'none';
-    }
-    )}
-)
-
-document.getElementById('takePhotoBtn').addEventListener('click', capturePhoto);
+    });
+});
 
 let photoSlot = 1;
 function capturePhoto() {
@@ -165,9 +156,7 @@ function capturePhoto() {
 
     ctx.translate(canvas.width, 0);
     ctx.scale(-1, 1);
-    
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
     ctx.setTransform(1, 0, 0, 1, 0, 0);
 
     if (selectedSticker) {
@@ -186,20 +175,25 @@ function capturePhoto() {
                 stickerHeight
             );
 
-            const photoId = `photo${photoSlot}`;
-            const photoElement = document.getElementById(photoId);
-            photoElement.src = canvas.toDataURL("image/png");
-
-            if (photoSlot < 4) {
-                photoSlot++;
-            } else {
-                photoSlot = 1;
-            }
+            saveToPhotostrip(canvas);
         };
+    } else {
+        saveToPhotostrip(canvas);
     }
 }
+function saveToPhotostrip(canvas) {
+    const photoId = `photo${photoSlot}`;
+    const photoElement = document.getElementById(photoId);
+    photoElement.src = canvas.toDataURL("image/png");
 
-document.getElementById('startTimer').addEventListener('click', () => {
+    if (photoSlot < 4) {
+        photoSlot++;
+    } else {
+        photoSlot = 1;
+    }
+};
+
+takePhotoBtn.addEventListener('click', () => {
     let countdown = 3;
     timerDisplay.textContent = countdown;
 
@@ -210,6 +204,10 @@ document.getElementById('startTimer').addEventListener('click', () => {
         } else {
             clearInterval(interval);
             timerDisplay.textContent = '';
+            capturePhoto();
+        }
+    }, 1000);
+});
     
 document.getElementById("downloadBtn").addEventListener("click", function() {
     const container = document.getElementById("photostripContainer");
@@ -229,9 +227,11 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
     setTimeout(() => {
         window.location.href = "thanku.html";
     }, 1000);
+});
 </script>
 
 </body>
 
 </html>
+
 
