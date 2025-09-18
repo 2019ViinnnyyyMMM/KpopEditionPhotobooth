@@ -10,8 +10,7 @@
         h1{margin: 6px 0 12px; font-size:30px; }
         .top-row{display: flex; justify-content: center; gap: 20px; align-items: flex-start; flex-wrap: wrap;}
         .camera-wrap{position: relative; width: 640px; max-width: 100%;}
-        video#video{display: block; width: 640px; height: 480px; border: 3px solid #222; border-radius:4px; margin-bottom: 0 auto;transform: scaleX(-1);}
-        #timer{position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 5rem; font-weight: bold; color: white; text-shadow: 2px 2px 5px black; z-index: 20} 
+        video#video{display: block; width: 640px; height: 480px; border: 3px solid #222; border-radius:4px; margin-bottom: 0 auto;transform: scaleX(-1);} 
         canvas#overlay{position: absolute; left: 0; width: 640px; height: 480px; background: transparent; margin-bottom: 10px;}
         #frame {
             display: flex;
@@ -92,18 +91,16 @@
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const addStickerBtn = document.getElementById('addStickerBtn');
 const takePhotoBtn = document.getElementById('takePhotoBtn');
-const timerDisplay = document.getElementById('timer');
 const container = document.getElementById('photostripContainer');
 
 navigator.mediaDevices.getUserMedia({ video: true })
     .then(stream => {
-        video.srcObject = stream;
+        document.getElementById('video').srcObject = stream;
     })
     .catch(err => {
         console.error("Camera error:", err);
@@ -111,14 +108,16 @@ navigator.mediaDevices.getUserMedia({ video: true })
 
 addStickerBtn.addEventListener('click', () => {
     const stickerMenu = document.getElementById('stickerMenu');
-    stickerMenu.style.display = 
-        (stickerMenu.style.display === 'none' || stickerMenu.style.display === '') 
-        ? 'block' : 'none' ;
+    if (stickerMenu.style.display === 'none' || stickerMenu.style.display === '') { 
+        stickerMenu.style.display === 'block';
+    } else {
+        stickerMenu.style.display = 'none';
+    }
 });
 
 let selectedSticker = null;
 
-document.querySelectorAll('.stickerOption').forEach((img => {
+document.querySelectorAll('.stickerOption').forEach((img, index => {
     img.addEventListener('click', () => {
         selectedSticker = img.src;
 
@@ -137,15 +136,21 @@ document.querySelectorAll('.stickerOption').forEach((img => {
         wrapper.appendChild(sticker);
 
         sticker.onload = () => {
+            console.log("Selected sticker:", sticker.src,
+                        "Width:", sticker.naturalWidth,
+                        "Height:", sticker.naturalHeight);
             const aspectRatio = sticker.naturalWidth / sticker.naturalHeight;
             sticker.style.height = video.offsetHeight + 'px';
             sticker.style.width = (video.offsetHeight * aspectRatio) + 'px';
         };
 
         document.getElementById('stickerMenu').style.display = 'none';
+    };
     });
-});
+)
 
+document.getElementById('takePhotoBtn').addEventListener('click', capturePhoto);
+    
 let photoSlot = 1;
 function capturePhoto() {
     const video = document.getElementById('video');
@@ -157,7 +162,9 @@ function capturePhoto() {
 
     ctx.translate(canvas.width, 0);
     ctx.scale(-1, 1);
+    
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
     ctx.setTransform(1, 0, 0, 1, 0, 0);
 
     if (selectedSticker) {
@@ -175,41 +182,18 @@ function capturePhoto() {
                 stickerWidth,
                 stickerHeight
             );
+            const photoId = `photo${photoSlot}`;
+            const photoElement = document.getElementById(photoId);
+            photoElement.src = canvas.toDataURL("image/png");
 
-            saveToPhotostrip(canvas);
+            if (photoSlot < 4) {
+                photoSlot++;
+            } else {
+                photoSlot = 1;
+            }
         };
-    } else {
-        saveToPhotostrip(canvas);
     }
 }
-function saveToPhotostrip(canvas) {
-    const photoId = `photo${photoSlot}`;
-    const photoElement = document.getElementById(photoId);
-    photoElement.src = canvas.toDataURL("image/png");
-
-    if (photoSlot < 4) {
-        photoSlot++;
-    } else {
-        photoSlot = 1;
-    }
-};
-
-document.getElementById('takePhotoBtn').addEventListener('click', () => {
-    let countdown = 3;
-    timerDisplay.textContent = countdown;
-
-    const interval = setInterval(() => {
-        countdown--;
-        if(countdown > 0) {
-            timerDisplay.textContent = countdown;
-        } else {
-            clearInterval(interval);
-            timerDisplay.textContent = '';
-            capturePhoto();
-        }
-    }, 1000);
-});
-    
 document.getElementById("downloadBtn").addEventListener("click", function() {
     const container = document.getElementById("photostripContainer");
 
@@ -229,12 +213,12 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
         window.location.href = "thanku.html";
     }, 1000);
 });
-});
 </script>
 
 </body>
 
 </html>
+
 
 
 
