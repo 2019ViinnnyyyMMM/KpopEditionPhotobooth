@@ -11,6 +11,7 @@
         .top-row{display: flex; justify-content: center; gap: 20px; align-items: flex-start; flex-wrap: wrap;}
         .camera-wrap{position: relative; width: 640px; max-width: 100%;}
         video#video{display: block; width: 640px; height: 480px; border: 3px solid #222; border-radius:4px; margin-bottom: 0 auto;transform: scaleX(-1);}
+        #timer{font-size: 2rem; color: black; margin: 10px} 
         canvas#overlay{position: absolute; left: 0; width: 640px; height: 480px; background: transparent; margin-bottom: 10px;}
         #frame {
             display: flex;
@@ -60,6 +61,7 @@
 <div id="wrapper" style="position: relative;">
     <video id="video" autoplay playsinline muted></video>
     <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
+<div id="timer"></div>
 <div id="stickerMenu" style="display: none;">
     <img src="image (2).png" class="stickerOption">
     <img src="image (4).png" class="stickerOption">
@@ -71,6 +73,7 @@
 <br>
 <button id="addStickerBtn" class="custom-button">Add Kpop Idol Sticker</button>
 <button id="takePhotoBtn" class="custom-button">Take Photo</button>
+<button id="startTimer" class="custom-button">Take Photo with Timer</button>
 <br><br>
 
 <div id="photostripContainer" class="photostrip">
@@ -95,6 +98,7 @@ const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const addStickerBtn = document.getElementById('addStickerBtn');
 const takePhotoBtn = document.getElementById('takePhotoBtn');
+const timerDisplay = document.getElementById('timer');
 const container = document.getElementById('photostripContainer');
 
 navigator.mediaDevices.getUserMedia({ video: true })
@@ -194,6 +198,19 @@ function capturePhoto() {
         };
     }
 }
+
+document.getElementById('startTimer').addEventListener('click', () => {
+    let countdown = 3;
+    timerDisplay.textContent = countdown;
+
+    const interval = setInterval(() => {
+        countdown--;
+        if(countdown > 0) {
+            timerDisplay.textContent = countdown;
+        } else {
+            clearInterval(interval);
+            timerDisplay.textContent = '';
+    
 document.getElementById("downloadBtn").addEventListener("click", function() {
     const container = document.getElementById("photostripContainer");
 
@@ -216,4 +233,5 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
 </script>
 
 </body>
+
 </html>
