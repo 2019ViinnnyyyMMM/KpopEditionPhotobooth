@@ -109,7 +109,7 @@ navigator.mediaDevices.getUserMedia({ video: true })
 addStickerBtn.addEventListener('click', () => {
     const stickerMenu = document.getElementById('stickerMenu');
     if (stickerMenu.style.display === 'none' || stickerMenu.style.display === '') { 
-        stickerMenu.style.display === 'block';
+        stickerMenu.style.display = 'block';
     } else {
         stickerMenu.style.display = 'none';
     }
@@ -117,7 +117,7 @@ addStickerBtn.addEventListener('click', () => {
 
 let selectedSticker = null;
 
-document.querySelectorAll('.stickerOption').forEach((img, index => {
+document.querySelectorAll('.stickerOption').forEach((img, index) => {
     img.addEventListener('click', () => {
         selectedSticker = img.src;
 
@@ -145,8 +145,8 @@ document.querySelectorAll('.stickerOption').forEach((img, index => {
         };
 
         document.getElementById('stickerMenu').style.display = 'none';
-    };
-    });
+    }
+    })
 )
 
 document.getElementById('takePhotoBtn').addEventListener('click', capturePhoto);
@@ -218,6 +218,7 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
 </body>
 
 </html>
+
 
 
 
