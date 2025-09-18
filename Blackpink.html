@@ -92,6 +92,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
+document.addEventListener('DOMContentLoaded', () => {
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
@@ -102,7 +103,7 @@ const container = document.getElementById('photostripContainer');
 
 navigator.mediaDevices.getUserMedia({ video: true })
     .then(stream => {
-        document.getElementById('video').srcObject = stream;
+        video.srcObject = stream;
     })
     .catch(err => {
         console.error("Camera error:", err);
@@ -233,5 +234,6 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
 </body>
 
 </html>
+
 
 
