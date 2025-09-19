@@ -10,7 +10,8 @@
         h1{margin: 6px 0 12px; font-size:30px; }
         .top-row{display: flex; justify-content: center; gap: 20px; align-items: flex-start; flex-wrap: wrap;}
         .camera-wrap{position: relative; width: 640px; max-width: 100%;}
-        video#video{display: block; width: 640px; height: 480px; border: 3px solid #222; border-radius:4px; margin-bottom: 0 auto;transform: scaleX(-1);} 
+        video#video{display: block; width: 640px; height: 480px; border: 3px solid #222; border-radius:4px; margin-bottom: 0 auto;transform: scaleX(-1);
+                   filter: grayscale(100%); sepia(100%); brightness(1.2);}
         canvas#overlay{position: absolute; left: 0; width: 640px; height: 480px; background: transparent; margin-bottom: 10px;}
         #frame {
             display: flex;
@@ -56,10 +57,10 @@
 <body>
 
 <h2>Photobox - Kpop Edition</h2>
-
+<div id="countdown" style="font-size: 4em; text-align: center; margin-top: 20px;"></div>
 <div id="wrapper" style="position: relative;">
     <video id="video" autoplay playsinline muted></video>
-    <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
+    <canvas id="canvas" width="640" height="480" style="display: none;" class="grayscale"></canvas>
 <div id="timer"></div>
 <div id="stickerMenu" style="display: none;">
     <img src="image (2).png" class="stickerOption">
@@ -71,7 +72,13 @@
 
 <br>
 <button id="addStickerBtn" class="custom-button">Add Kpop Idol Sticker</button>
-<button id="takePhotoBtn" class="custom-button">Take Photo</button>
+<button id="addFilterBtn" class="custom-button">Choose Your Filter
+    <button onclick="setFilter('none')">None</button>
+    <button onclick="setFilter('grayscale')">Grayscale</button>
+    <button onclick="setFilter('sepia')">Sepia</button>
+    <button onclick="setFilter('brightness')">Brightness</button>
+</button>
+<button onclick="startCountdown()" class="custom-button">Take Photo</button>
 <br><br>
 
 <div id="photostripContainer" class="photostrip">
@@ -148,7 +155,38 @@ document.querySelectorAll('.stickerOption').forEach((img, index) => {
     }
     })
 )
+function setFilter(filterClass) {
+    video.className = '';
+    if (filterClass !== 'none') {
+        video.classList.add(filterClass);
+    }
+}
 
+function startCountdown() {
+    const countdownEl = document.getElementById("countdown");
+    let count = 3;
+
+    countdownEl.textContent = count;
+
+    const interval = setInterval(() => {
+        count--;
+        if (count > 0) {
+            countdownEl.textContent = count;
+        } else }
+            clearInterval(interval);
+            countdownEl.textContent = "Smile";
+
+            setTimeout(() => {
+                countdownEl.textContent = "";
+                takePhoto();
+            }, 1000);
+        }
+    }, 1000);
+}
+    
+
+    
+    
 document.getElementById('takePhotoBtn').addEventListener('click', capturePhoto);
     
 let photoSlot = 1;
@@ -218,6 +256,7 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
 </body>
 
 </html>
+
 
 
 
