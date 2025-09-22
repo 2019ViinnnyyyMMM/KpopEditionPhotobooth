@@ -103,6 +103,7 @@ const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const addStickerBtn = document.getElementById('addStickerBtn');
 const takePhotoBtn = document.getElementById('takePhotoBtn');
+const startCountdown() = document.getElementById('startCountdown');
 const container = document.getElementById('photostripContainer');
 
 navigator.mediaDevices.getUserMedia({ video: true })
@@ -152,8 +153,7 @@ document.querySelectorAll('.stickerOption').forEach((img, index) => {
         };
 
         document.getElementById('stickerMenu').style.display = 'none';
-    })
-)
+
 function applyFilter(filterClass) {
     video.className = '';
     if (filterClass !== 'none') {
@@ -252,6 +252,7 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
 </body>
 
 </html>
+
 
 
 
