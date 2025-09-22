@@ -154,7 +154,7 @@ document.querySelectorAll('.stickerOption').forEach((img, index) => {
         document.getElementById('stickerMenu').style.display = 'none';
     })
 )
-function setFilter(filterClass) {
+function applyFilter(filterClass) {
     video.className = '';
     if (filterClass !== 'none') {
         video.classList.add(filterClass);
@@ -199,7 +199,7 @@ function capturePhoto() {
     
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.transform(1, 0, 0, 1, 0, 0);
 
     if (selectedSticker) {
         const img = new Image();
@@ -227,7 +227,7 @@ function capturePhoto() {
             }
         };
     }
-}
+});
 document.getElementById("downloadBtn").addEventListener("click", function() {
     const container = document.getElementById("photostripContainer");
 
@@ -236,7 +236,7 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
         return;
     }
 
-    html2canvas(container, {backgroundColor: null}).then(canvas => {
+    html2canvas(container, {backgroundColor: null}).then((canvas => {
         let link = document.createElement("a");
         link.download = "photostrip.png";
         link.href = canvas.toDataURL("image/png");
@@ -252,6 +252,7 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
 </body>
 
 </html>
+
 
 
 
