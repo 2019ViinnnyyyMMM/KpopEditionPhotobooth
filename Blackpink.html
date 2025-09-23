@@ -153,7 +153,8 @@ document.querySelectorAll('.stickerOption').forEach((img, index) => {
         };
 
         document.getElementById('stickerMenu').style.display = 'none';
-
+    )}
+)}
 function applyFilter(filterClass) {
     video.className = '';
     if (filterClass !== 'none') {
@@ -171,7 +172,7 @@ function startCountdown() {
         count--;
         if (count > 0) {
             countdownEl.textContent = count;
-        } else }
+        } else })
             clearInterval(interval);
             countdownEl.textContent = "Smile";
 
@@ -179,9 +180,7 @@ function startCountdown() {
                 countdownEl.textContent = "";
                 takePhoto();
             }, 1000);
-        }
-    }, 1000);
-}
+}, 1000);
         
 document.getElementById('takePhotoBtn').addEventListener('click', capturePhoto);
     
@@ -252,6 +251,7 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
 </body>
 
 </html>
+
 
 
 
