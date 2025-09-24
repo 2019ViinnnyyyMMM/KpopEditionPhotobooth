@@ -73,12 +73,12 @@
 <br>
 <button id="addStickerBtn" class="custom-button">Add Kpop Idol Sticker</button>
 <button id="addFilterBtn" class="custom-button">Choose Your Filter
-    <button onclick="setFilter('none')">None</button>
-    <button onclick="setFilter('grayscale')">Grayscale</button>
-    <button onclick="setFilter('sepia')">Sepia</button>
-    <button onclick="setFilter('brightness')">Brightness</button>
+    <button onclick="applyFilter('none')">None</button>
+    <button onclick="applyFilter('grayscale')">Grayscale</button>
+    <button onclick="applyFilter('sepia')">Sepia</button>
+    <button onclick="applyFilter('brightness')">Brightness</button>
 </button>
-<button onclick="startCountdown()" class="custom-button">Take Photo</button>
+<button id="startBtn" onclick="startCountdown()" class="custom-button">Take Photo</button>
 <br><br>
 
 <div id="photostripContainer" class="photostrip">
@@ -152,14 +152,14 @@ document.querySelectorAll('.stickerOption').forEach((img, index) => {
         };
 
         document.getElementById('stickerMenu').style.display = 'none';
-    )};
-)};
+    });
+});
                                                     
 function applyFilter(filterClass) {
     video.className = '';
-    if (filter === 'grayscale') video.style.filter = 'grayscale(100%)';
-    else if (filter === 'sepia') video.style.filter = 'sepia(100%)';
-    else if (filter === 'brightness') video.style.filter = 'brightness(1.5)';
+    if (filterClass === 'grayscale') video.style.filter = 'grayscale(100%)';
+    else if (filterClass === 'sepia') video.style.filter = 'sepia(100%)';
+    else if (filterClass === 'brightness') video.style.filter = 'brightness(1.5)';
     else video.style.filter = 'none';
 }
 
@@ -254,6 +254,7 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
 </body>
 
 </html>
+
 
 
 
