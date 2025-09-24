@@ -243,17 +243,17 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
         link.download = "photostrip.png";
         link.href = canvas.toDataURL("image/png");
         link.click();
+        
+        setTimeout(() => {
+            window.location.href = "thanku.html";
+        }, 1000);
     });
-
-    setTimeout(() => {
-        window.location.href = "thanku.html";
-    }, 1000);
-});
 </script>
 
 </body>
 
 </html>
+
 
 
 
