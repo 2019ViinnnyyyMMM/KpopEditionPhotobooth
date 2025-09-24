@@ -102,7 +102,6 @@ const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const addStickerBtn = document.getElementById('addStickerBtn');
-const startCountdown = document.getElementById('startCountdown');
 const container = document.getElementById('photostripContainer');
 
 navigator.mediaDevices.getUserMedia({ video: true })
@@ -166,23 +165,23 @@ function applyFilter(filterClass) {
 document.getElementById('startBtn').addEventListener('click', startCountdown);
 
 function startCountdown() {
-    const cd = document.getElementById("countdown");
+    const countdownEl = document.getElementById("countdown");
     let count = 3;
 
-    cd.textContent = count;
+    countdownEl.textContent = count;
 
-    const timer = setInterval(() => {
+    const interval = setInterval(() => {
         count--;
         if (count > 0) {
-            cd.textContent = count;
+            countdownEl.textContent = count;
         } else {
-            clearInterval(timer);
-            cd.textContent = "Smile!";
+            clearInterval(interval);
+            countdownEl.textContent = "Smile!";
 
             setTimeout(() => {
-                cd.textContent = "";
+                countdownEl.textContent = "";
                 capturePhoto();
-            }, 800);
+            }, 1000);
         }
     }, 1000);
 }
@@ -229,7 +228,7 @@ function capturePhoto() {
             }
         };
     }
-});
+};
 document.getElementById("downloadBtn").addEventListener("click", function() {
     const container = document.getElementById("photostripContainer");
 
@@ -254,6 +253,7 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
 </body>
 
 </html>
+
 
 
 
