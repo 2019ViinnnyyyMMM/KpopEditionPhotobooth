@@ -238,23 +238,24 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
         return;
     }
 
-    html2canvas(container, {backgroundColor: null}).then((canvas => {
+    html2canvas(container, {backgroundColor: null}).then(canvas => {
         let link = document.createElement("a");
         link.download = "photostrip.png";
         link.href = canvas.toDataURL("image/png");
         link.click();
-    }));
+    });
 
     setTimeout(() => {
         window.location.href = "thanku.html";
     }, 1000);
-    }));
+    });
 });
 </script>
 
 </body>
 
 </html>
+
 
 
 
