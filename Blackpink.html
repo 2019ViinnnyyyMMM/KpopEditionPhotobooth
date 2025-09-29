@@ -82,6 +82,8 @@
     <button onclick="applyFilter('brightness')">Brightness</button>
 </div>
 <button id="startBtn" class="custom-button">Take Photo</button>
+<button id="makeGIF" class="custom-button">Make GIF</button>
+<div id="gifResult"></div>
 <br><br>
 
 <div id="photostripContainer" class="photostrip">
@@ -99,8 +101,6 @@
     </h3>
 </div>
 <button id="downloadBtn" class="custom-button">Download Photostrip</button>
-<button id="makeGIF" class="custom-button">Make GIF</button>
-<div id="gifResult"></div>
 </body>
 </html>
 
@@ -269,7 +269,7 @@ function recordGIF() {
 
     let frames = 20;
     let delay = 100;
-    let i = 0
+    let i = 0;
 
     function captureFrame() {
         drawPhotoboothFrame();
@@ -302,6 +302,7 @@ function recordGIF() {
 
 </body>
 </html>
+
 
 
 
