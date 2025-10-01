@@ -234,7 +234,6 @@ function capturePhoto() {
         img.onerror = () => {
             console.error("Sticker failed to load:", selectedSticker);
         };
-    }    
             const photoId = `photo${photoSlot}`;
             const photoElement = document.getElementById(photoId);
             photoElement.src = canvas.toDataURL("image/png");
@@ -297,6 +296,7 @@ document.getElementById("makeGifBtn").addEventListener("click", () => {
 </script>
 </body>
 </html>
+
 
 
 
