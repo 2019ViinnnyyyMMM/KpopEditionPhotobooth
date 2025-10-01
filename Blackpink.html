@@ -215,17 +215,26 @@ function capturePhoto() {
     if (selectedSticker) {
         const img = new Image();
         img.src = selectedSticker;
+        
         img.onload = () => {
             const stickerHeight = canvas.height;
             const stickerWidth = (img.width / img.height) * stickerHeight;
 
-            ctx.drawImage(img, 0, 0, stickerWidth, stickerHeight);
-        };
-    }
-    
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.filter = "none";
+            const xPos = canvas.width - stickerWidth;
+            const yPos = 0;
+
+            ctx.filter = video.style.filter || "none";
+            ctx.drawImage(img, xPos, yPos, stickerWidth, stickerHeight);
             
+            ctx.drawImage(img, 0, 0, stickerWidth, stickerHeight);
+        
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.filter = "none";
+        }
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.filter = "none";
+        }
+    }
             const photoId = `photo${photoSlot}`;
             const photoElement = document.getElementById(photoId);
             photoElement.src = canvas.toDataURL("image/png");
@@ -288,6 +297,7 @@ document.getElementById("makeGifBtn").addEventListener("click", () => {
 </script>
 </body>
 </html>
+
 
 
 
