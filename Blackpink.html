@@ -234,16 +234,19 @@ function capturePhoto() {
         img.onerror = () => {
             console.error("Sticker failed to load:", selectedSticker);
         };
-            const photoId = `photo${photoSlot}`;
-            const photoElement = document.getElementById(photoId);
-            photoElement.src = canvas.toDataURL("image/png");
+    }
+    
+    const photoId = `photo${photoSlot}`;
+    const photoElement = document.getElementById(photoId);
+    photoElement.src = canvas.toDataURL("image/png");
 
-            if (photoSlot < 4) {
-                photoSlot++;
-            } else {
-                photoSlot = 1;
-            }
+    if (photoSlot < 4) {
+        photoSlot++;
+    } else {
+        photoSlot = 1;
+    }
 }
+    
 document.getElementById("downloadBtn").addEventListener("click", function() {
     const container = document.getElementById("photostripContainer");
 
@@ -295,6 +298,7 @@ document.getElementById("makeGifBtn").addEventListener("click", () => {
 </script>
 </body>
 </html>
+
 
 
 
