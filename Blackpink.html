@@ -221,7 +221,7 @@ function capturePhoto() {
             const stickerHeight = canvas.height;
             const stickerWidth = (img.width / img.height) * stickerHeight;
 
-            const xPos = canvas.width - stickerWidth;
+            const xPos = 0;
             const yPos = 0;
 
             ctx.filter = video.style.filter || "none"
@@ -296,6 +296,7 @@ document.getElementById("makeGifBtn").addEventListener("click", () => {
 </script>
 </body>
 </html>
+
 
 
 
