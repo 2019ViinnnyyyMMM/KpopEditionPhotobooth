@@ -212,6 +212,8 @@ function capturePhoto() {
     ctx.filter = video.style.filter || "none";
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+
     if (selectedSticker) {
         const img = new Image();
         img.src = selectedSticker;
@@ -294,6 +296,7 @@ document.getElementById("makeGifBtn").addEventListener("click", () => {
 </script>
 </body>
 </html>
+
 
 
 
