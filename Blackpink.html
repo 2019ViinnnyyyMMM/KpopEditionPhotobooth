@@ -233,8 +233,6 @@ function capturePhoto() {
     }
 
     function finalizePhoto() {
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-
         const photoId = `photo${photoSlot}`;
         const photoElement = document.getElementById(photoId);
         photoElement.src = canvas.toDataURL("image/png");
@@ -296,6 +294,7 @@ document.getElementById("makeGifBtn").addEventListener("click", () => {
 </script>
 </body>
 </html>
+
 
 
 
