@@ -206,13 +206,13 @@ function capturePhoto() {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
 
+    ctx.save();
     ctx.translate(canvas.width, 0);
     ctx.scale(-1, 1);
     
     ctx.filter = video.style.filter || "none";
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.restore();
 
     if (selectedSticker) {
         const img = new Image();
@@ -221,11 +221,13 @@ function capturePhoto() {
             const stickerHeight = canvas.height;
             const stickerWidth = (img.width / img.height) * stickerHeight;
 
-            const xPos = 0;
+            const xPos = canvas.width - stickerWidth;
             const yPos = 0;
 
+            ctx.filter = video.style.filter || "none"
             ctx.drawImage(img, xPos, yPos, stickerWidth, stickerHeight);
 
+            ctx.filter = "none";
             finalizePhoto();
         };
     } else {
@@ -294,6 +296,7 @@ document.getElementById("makeGifBtn").addEventListener("click", () => {
 </script>
 </body>
 </html>
+
 
 
 
