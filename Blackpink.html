@@ -272,20 +272,28 @@ makeGifBtn.addEventListener("click", () => {
     const gif = new GIF({
         workers: 2,
         quality: 10,
-        workerScript: 'https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.worker.js'
     });
+
+    const tempCanvas = document.createElement("canvas");
+    const tempCtx = tempCanvas.getContext("2d");
+    tempCanvas.width = canvas.width;
+    temp.Canvas.height = canvas.height;
 
     for (let i = 1; i <= 4; i++) {
         const photo = document.getElementById(`photo${i}`);
         if (photo && photo.src) {
-            const tempImg = new Image();
-            tempImg.src = photo.src;
-            gif.addFrame(tempImg, {delay: 1000});
+            const img = new Image();
+            img.src = photo.src;
+
+            img.onload = () => {
+                tempCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
+                tempCtx.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
+                gif.addFrame(tempCtx, {copy: true, delay: 1000});
+            };
         }
     }
 
     gif.on('finished', function(blob) {
-
         const url = URL.createObjectURL(blob);
         gifResult.innerHTML = `<img src="${url}" alt="Your GIF"/>`;
 
@@ -304,6 +312,7 @@ makeGifBtn.addEventListener("click", () => {
 </script>
 </body>
 </html>
+
 
 
 
