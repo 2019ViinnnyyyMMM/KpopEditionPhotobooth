@@ -83,6 +83,7 @@
 </div>
 <button id="startBtn" class="custom-button">Take Photo</button>
 <button id="makeGifBtn" class="custom-button">Make GIF</button>
+<button id="downloadGifBtn" class="custom-button" style="display:none;">Download GIF</button>
 <div id="gifResult"></div>
 <br><br>
 
@@ -268,11 +269,12 @@ document.getElementById("makeGifBtn").addEventListener("click", () => {
     const gif = new GIF({
         workers: 2,
         quality: 10,
-        workerScript: 'https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.worker.js'
+        width: canvas.width,
+        height: canvas.height,
     });
 
-    let frames = 20;
     let i = 0;
+    const frames = 4;
 
     function captureFrame() {
         if (i < frames) {
@@ -281,10 +283,21 @@ document.getElementById("makeGifBtn").addEventListener("click", () => {
             setTimeout(captureFrame, 1000);
         } else {
             gif.on('finished', function(blob) {
+                const url = URL.createObjectURL(blob);
+                
                 const img = document.createElement('img');
-                img.src = URL.createObjectURL(blob);
+                img.src = url;
                 document.getElementById("gifResult").innerHTML = "";
-                document.getElementById("gifResult").appendChild(img);  
+                document.getElementById("gifResult").appendChild(img);
+
+                const downloadBtn = document.getElementById("downloadGifBtn");
+                downloadBtn.style.display = "inline-block";
+                downloadBtn.onclick = () => {
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.download = "photostrip.gif";
+                    link.click();
+                };
             });
             gif.render();
         }
@@ -296,6 +309,7 @@ document.getElementById("makeGifBtn").addEventListener("click", () => {
 </script>
 </body>
 </html>
+
 
 
 
