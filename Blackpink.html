@@ -277,41 +277,51 @@ makeGifBtn.addEventListener("click", () => {
     const tempCanvas = document.createElement("canvas");
     const tempCtx = tempCanvas.getContext("2d");
     tempCanvas.width = canvas.width;
-    temp.Canvas.height = canvas.height;
+    tempCanvas.height = canvas.height;
+
+    let loaded = 0;
+    let total = 0;
+
+    for (let i = 1; i <= 4; i++) {
+        const photo = document.getElementById(`photo${i}`);
+        if (photo && photo.src) total++;
+    }
 
     for (let i = 1; i <= 4; i++) {
         const photo = document.getElementById(`photo${i}`);
         if (photo && photo.src) {
             const img = new Image();
             img.src = photo.src;
-
             img.onload = () => {
                 tempCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
                 tempCtx.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
                 gif.addFrame(tempCtx, {copy: true, delay: 1000});
+                loaded++;
+
+                if(loaded === total) {
+                    gif.on('finished', function(blob) {
+                        const url = URL.createObjectURL(blob);
+                        gifResult.innerHTML = `<img src="${url}" alt="Your GIF"/>`;
+
+                        downloadGifBtn.style.display = "inline-block";
+                        downloadGifBtn.onclick = () => {
+                            const a = document.createElement("a");
+                            a.href = url;
+                            a.download = "photobooth.gif";
+                            a.click();
+                        };
+                    });
+                    gif.render();
+                } 
             };
         }
     }
-
-    gif.on('finished', function(blob) {
-        const url = URL.createObjectURL(blob);
-        gifResult.innerHTML = `<img src="${url}" alt="Your GIF"/>`;
-
-        downloadGifBtn.style.display = "inline-block";
-        downloadGifBtn.onclick = () => {
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "photobooth.gif";
-            a.click();
-        };
-    });
-
-    gif.render();
 });
     
 </script>
 </body>
 </html>
+
 
 
 
