@@ -83,7 +83,7 @@
 </div>
 <button id="startBtn" class="custom-button">Take Photo</button>
 <button id="makeGifBtn" class="custom-button">Make GIF</button>
-<button id="downloadGifBtn" class="custom-button">Download GIF</button>
+<button id="downloadGifBtn" style="display:none" class="custom-button">Download GIF</button>
 <div id="gifResult"></div>
 <br><br>
 
@@ -104,7 +104,6 @@
 <button id="downloadBtn" class="custom-button">Download Photostrip</button>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.worker.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.js"></script>
 
 <script>
@@ -265,50 +264,47 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
     });
 });
     
-document.getElementById("makeGifBtn").addEventListener("click", () => {
+const makeGifBtn = document.getElementById("makeGifBtn");
+const downloadGifBtn = document.getElementById("downloadGifBtn");
+const gifResult = document.getElementById("gifResult");
+    
+makeGifBtn.addEventListener("click", () => {
     const gif = new GIF({
         workers: 2,
         quality: 10,
-        width: canvas.width,
-        height: canvas.height,
+        workerScript: 'https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.worker.js'
     });
 
-    let i = 0;
-    const frames = 4;
-
-    function captureFrame() {
-        if (i < frames) {
-            gif.addFrame(canvas, {copy: true, delay: 1000});
-            i++;
-            setTimeout(captureFrame, 1000);
-        } else {
-            gif.on('finished', function(blob) {
-                const url = URL.createObjectURL(blob);
-                
-                const img = document.createElement('img');
-                img.src = url;
-                document.getElementById("gifResult").innerHTML = "";
-                document.getElementById("gifResult").appendChild(img);
-
-                const downloadBtn = document.getElementById("downloadGifBtn");
-                downloadBtn.style.display = "inline-block";
-                downloadBtn.onclick = () => {
-                    const link = document.createElement("a");
-                    link.href = url;
-                    link.download = "photostrip.gif";
-                    link.click();
-                };
-            });
-            gif.render();
+    for (let i = 1; i <= 4; i++) {
+        const photo = document.getElementById(`photo${i}`);
+        if (photo && photo.src) {
+            const tempImg = new Image();
+            tempImg.src = photo.src;
+            gif.addFrame(tempImg, {delay: 1000});
         }
     }
-    
-    captureFrame();
+
+    gif.on('finished', function(blob) {
+
+        const url = URL.createObjectURL(blob);
+        gifResult.innerHTML = `<img src="${url}" alt="Your GIF"/>`;
+
+        downloadGifBtn.style.display = "inline-block";
+        downloadGifBtn.onclick = () => {
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "photobooth.gif";
+            a.click();
+        };
+    });
+
+    gif.render();
 });
     
 </script>
 </body>
 </html>
+
 
 
 
