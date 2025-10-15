@@ -77,7 +77,7 @@
 <button id="addStickerBtn" class="custom-button">Add Kpop Idol Sticker</button>
 <div class="filter-dropdown">
     <button id="addFilterBtn">Choose Your Filter</button>
-    <div class="custom Buttons">
+    <div class="custom-buttons">
         <button onclick="applyFilter('none')">None</button>
         <button onclick="applyFilter('grayscale')">Grayscale</button>
         <button onclick="applyFilter('sepia')">Sepia</button>
@@ -165,7 +165,6 @@ document.querySelectorAll('.stickerOption').forEach((img, index) => {
         document.getElementById('stickerMenu').style.display = 'none';
     });
 });
-      
 function applyFilter(filterClass) {
     video.className = '';
     if (filterClass === 'grayscale') video.style.filter = 'grayscale(100%)';
@@ -267,6 +266,7 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
 </script>
 </body>
 </html>
+
 
 
 
