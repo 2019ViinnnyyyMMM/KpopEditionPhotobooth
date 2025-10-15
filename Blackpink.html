@@ -114,7 +114,6 @@
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
-const chooseFilterBtn = document.getElementById('chooseFilter');
 const addStickerBtn = document.getElementById('addStickerBtn');
 const container = document.getElementById('photostripContainer');
 
@@ -168,7 +167,8 @@ document.querySelectorAll('.stickerOption').forEach((img, index) => {
 
         document.getElementById('stickerMenu').style.display = 'none';
     });
-}); 
+});
+    
 const chooseFilterBtn = document.getElementById('chooseFilter');
 const filterDropdown = document.querySelector('.filter-dropdown');
 
@@ -177,7 +177,6 @@ chooseFilterBtn.addEventListener('click', () => {
 });
     
 function applyFilter(filterType) {
-    const video = document.querySelector('video');
     if (!video) return;
 
     switch (filterType) {
@@ -290,6 +289,7 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
 </script>
 </body>
 </html>
+
 
 
 
