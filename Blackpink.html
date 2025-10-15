@@ -53,6 +53,7 @@
         .photostrip{width: 640px; margin: 20px auto; border: 8px solid black; padding: 10px; text-align: center; background-color: #000;}
         .photostrip .logo{margin-bottom: 10px; border: 2px solid black;}
         .custom-button{background-color: black; color: white; padding: 8px 18px; border: none; border-radius: 30px; font-size: 14px; font-weight: bold; margin: 10px;}
+        .filter-dropdown{position: relative; display: inline-block;}
     </style>
 </head>
 <body>
@@ -74,17 +75,16 @@
 
 <br>
 <button id="addStickerBtn" class="custom-button">Add Kpop Idol Sticker</button>
-<div class="custom-button" id="addFilterBtn">Choose Your Filter</div>
-<div class="filter-options">
-    <button onclick="applyFilter('none')">None</button>
-    <button onclick="applyFilter('grayscale')">Grayscale</button>
-    <button onclick="applyFilter('sepia')">Sepia</button>
-    <button onclick="applyFilter('brightness')">Brightness</button>
+<div class="filter-dropdown">
+    <button id="addFilterBtn">Choose Your Filter</button>
+    <div class="custom-button">
+        <button onclick="applyFilter('none')">None</button>
+        <button onclick="applyFilter('grayscale')">Grayscale</button>
+        <button onclick="applyFilter('sepia')">Sepia</button>
+        <button onclick="applyFilter('brightness')">Brightness</button>
+    </div>
 </div>
 <button id="startBtn" class="custom-button">Take Photo</button>
-<button id="makeGifBtn" class="custom-button">Make GIF</button>
-<button id="downloadGifBtn" style="display:none" class="custom-button">Download GIF</button>
-<div id="gifResult"></div>
 <br><br>
 
 <div id="photostripContainer" class="photostrip">
@@ -262,65 +262,11 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
             window.location.href = "thanku.html";
         }, 1000);
     });
-});
-    
-const makeGifBtn = document.getElementById("makeGifBtn");
-const downloadGifBtn = document.getElementById("downloadGifBtn");
-const gifResult = document.getElementById("gifResult");
-    
-makeGifBtn.addEventListener("click", () => {
-    const gif = new GIF({
-        workers: 2,
-        quality: 10,
-    });
-
-    const tempCanvas = document.createElement("canvas");
-    const tempCtx = tempCanvas.getContext("2d");
-    tempCanvas.width = canvas.width;
-    tempCanvas.height = canvas.height;
-
-    let loaded = 0;
-    let total = 0;
-
-    for (let i = 1; i <= 4; i++) {
-        const photo = document.getElementById(`photo${i}`);
-        if (photo && photo.src) total++;
-    }
-
-    for (let i = 1; i <= 4; i++) {
-        const photo = document.getElementById(`photo${i}`);
-        if (photo && photo.src) {
-            const img = new Image();
-            img.src = photo.src;
-            img.onload = () => {
-                tempCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
-                tempCtx.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
-                gif.addFrame(tempCtx, {copy: true, delay: 1000});
-                loaded++;
-
-                if(loaded === total) {
-                    gif.on('finished', function(blob) {
-                        const url = URL.createObjectURL(blob);
-                        gifResult.innerHTML = `<img src="${url}" alt="Your GIF"/>`;
-
-                        downloadGifBtn.style.display = "inline-block";
-                        downloadGifBtn.onclick = () => {
-                            const a = document.createElement("a");
-                            a.href = url;
-                            a.download = "photobooth.gif";
-                            a.click();
-                        };
-                    });
-                    gif.render();
-                } 
-            };
-        }
-    }
-});
-    
+});  
 </script>
 </body>
 </html>
+
 
 
 
