@@ -80,7 +80,7 @@
 <br>
 <button id="addStickerBtn" class="custom-button">Add Kpop Idol Sticker</button>
 <div class="filter-dropdown">
-    <button id="chooseFilter">Choose Your Filter</button>
+    <button id="addFilterBtn">Choose Your Filter</button>
     <div class="filter-options">
         <button onclick="applyFilter('none')">None</button>
         <button onclick="applyFilter('grayscale')">Grayscale</button>
@@ -115,6 +115,7 @@ const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const addStickerBtn = document.getElementById('addStickerBtn');
+const addFilterBtn = document.getElementById('addFilterBtn');
 const container = document.getElementById('photostripContainer');
 
 navigator.mediaDevices.getUserMedia({ video: true })
@@ -168,33 +169,14 @@ document.querySelectorAll('.stickerOption').forEach((img, index) => {
         document.getElementById('stickerMenu').style.display = 'none';
     });
 });
-    
-const chooseFilterBtn = document.getElementById('chooseFilter');
-const filterDropdown = document.querySelector('.filter-dropdown');
-
-chooseFilterBtn.addEventListener('click', () => {
-    filterDropdown.classList.toggle('active');
+      
+function applyFilter(filterClass) {
+    video.className = '';
+    if (filterClass === 'grayscale') video.style.filter = 'grayscale(100%)';
+    else if (filterClass === 'sepia') video.style.filter = 'sepia(100%);
+    else if (filterClass === 'brightness') video.style.filter = 'brightness(1.5)';
+    else video.style.filter = 'none';
 });
-    
-function applyFilter(filterType) {
-    if (!video) return;
-
-    switch (filterType) {
-        case 'grayscale':
-            video.style.filter = 'grayscale(100%)';
-            break;
-        case 'sepia':
-            video.style.filter = 'sepia(100%)';
-            break;
-        case 'brightness':
-            video.style.filter = 'brightness(120%)';
-            break;
-        default:
-            video.style.filter = 'none';
-    }
-
-    filterDropdown.classList.remove('active');
-}
 
 document.getElementById('startBtn').addEventListener('click', startCountdown);
 
@@ -289,6 +271,7 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
 </script>
 </body>
 </html>
+
 
 
 
