@@ -54,8 +54,10 @@
         .photostrip .logo{margin-bottom: 10px; border: 2px solid black;}
         .custom-button{background-color: black; color: white; padding: 8px 18px; border: none; border-radius: 30px; font-size: 14px; font-weight: bold; margin: 10px;}
         .filter-dropdown{position: relative; display: inline-block;}
-        .filter-options{display: none; position: absolute; background-color: black; border: 1px solid #ccc; border-radius: 8px; margin-top: 5px; z-index: 10; padding: 5px;}
+        .filter-options{display: none; position: absolute; background-color: #fff; border: 1px solid #ccc; border-radius: 8px; margin-top: 5px; z-index: 10; padding: 5px;}
         .filter-options button{display: block; background: none; border: none; width: 100%; text-align: left; padding: 5px 10px; cursor: pointer;}
+        .filter-options button:hover{background-color: #eee;}
+        .filter-dropdown.active .filter-options{display: block;}
     </style>
 </head>
 <body>
@@ -78,7 +80,7 @@
 <br>
 <button id="addStickerBtn" class="custom-button">Add Kpop Idol Sticker</button>
 <div class="filter-dropdown">
-    <button id="addFilterBtn">Choose Your Filter</button>
+    <button id="chooseFilter">Choose Your Filter</button>
     <div class="filter-options">
         <button onclick="applyFilter('none')">None</button>
         <button onclick="applyFilter('grayscale')">Grayscale</button>
@@ -166,21 +168,32 @@ document.querySelectorAll('.stickerOption').forEach((img, index) => {
         document.getElementById('stickerMenu').style.display = 'none';
     });
 }); 
-const addFilterBtn = document.getElementById('addFilterBtn');
+const chooseFilterBtn = document.getElementById('chooseFilterBtn');
 const filterDropdown = document.querySelector('.filter-dropdown');
 
-addFilterBtn.addEventListener('click', () => {
+chooseFilterBtn.addEventListener('click', () => {
     filterDropdown.classList.toggle('active');
+});
     
-    function applyFilter(filterClass) {
-        video.className = '';
-        if (filterClass === 'grayscale') video.style.filter = 'grayscale(100%)';
-        else if (filterClass === 'sepia') video.style.filter = 'sepia(100%)';
-        else if (filterClass === 'brightness') video.style.filter = 'brightness(1.5)';
-        else video.style.filter = 'none';
+function applyFilter(filterType) {
+    const video = document.querySelector('video');
+    if (!video) return;
+
+    switch (filterType) {
+        case 'grayscale';
+            video.style.filter = 'grayscale(100%)';
+            break;
+        case 'sepia';
+            video.style.filter = 'sepia(100%)';
+            break;
+        case 'brightness';
+            video.style.filter = 'brightness(120%)';
+            break;
+        default:
+            video.style.filter = 'none';
     }
 
-filterDropdown.classList.remove('active');
+    filterDropdown.classList.remove('active');
 }
 
 document.getElementById('startBtn').addEventListener('click', startCountdown);
@@ -276,6 +289,7 @@ document.getElementById("downloadBtn").addEventListener("click", function() {
 </script>
 </body>
 </html>
+
 
 
 
