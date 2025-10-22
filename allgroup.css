@@ -10,10 +10,10 @@ body{
 }
 .list{
     width: 1500px;
-    display: grid;
-    grid-template-columns: repeat(10, 2fr);
-    grid-template-rows: 600px;
-    gap: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
 }
 .list .item img{
     width: 100%;
@@ -64,3 +64,4 @@ body{
     z-index: 1;
 
 }
+
