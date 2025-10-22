@@ -9,11 +9,13 @@ body{
     overflow: visible;
 }
 .list{
-    width: 1500px;
+    max-width: 1500px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
     padding: 20px;
+    margin: 0 auto;
 }
 .list .item img{
     width: 100%;
@@ -26,6 +28,7 @@ body{
     transform: scale(1.2);
 }
 .list .item{
+    width: 250px;
     color: white;
     position: relative;
     transition: 0.5s;
@@ -64,4 +67,5 @@ body{
     z-index: 1;
 
 }
+
 
