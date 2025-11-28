@@ -239,7 +239,7 @@ function capturePhoto() {
         const photoElement = document.getElementById(photoId);
         photoElement.src = canvas.toDataURL("image/png");
 
-        if (photoSlot < 4) photoSlot++;
+        if (photoSlot < 5) photoSlot++;
         else photoSlot = 1;
     }
 }
