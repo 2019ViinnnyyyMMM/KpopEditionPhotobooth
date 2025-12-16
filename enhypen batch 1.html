@@ -10,7 +10,9 @@
         h1{margin: 6px 0 12px; font-size:30px; }
         .top-row{display: flex; justify-content: center; gap: 20px; align-items: flex-start; flex-wrap: wrap;}
         .camera-wrap{position: relative; width: 640px; max-width: 100%;}
-        video#video{display: block; width: 640px; height: 480px; border: 3px solid #222; border-radius:4px; margin-bottom: 0 auto; transform: scaleX(-1);}
+        video#video{display: block; width: 640px; height: 480px; border: 3px solid #222; border-radius:4px; margin-bottom: 0 auto; transform: scaleX(-1);
+                   filter: grayscale(100%) sepia(100%) brightness(1.2);}
+        #countdown{position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: black; font-weight: bold; z-index: 20;} 
         canvas#overlay{position: absolute; left: 0; width: 640px; height: 480px; background: transparent; margin-bottom: 10px;}
         #frame {
             display: flex;
@@ -51,6 +53,7 @@
         .photostrip{width: 640px; margin: 20px auto; border: 8px solid black; padding: 10px; text-align: center; background-color: #000;}
         .photostrip .logo{margin-bottom: 10px; border: 2px solid black;}
         .custom-button{background-color: black; color: white; padding: 8px 18px; border: none; border-radius: 30px; font-size: 14px; font-weight: bold; margin: 10px;}
+        .filter-dropdown{position: relative; display: inline-block;}
     </style>
 </head>
 <body>
@@ -60,6 +63,8 @@
 <div id="wrapper" style="position: relative;">
     <video id="video" autoplay playsinline muted></video>
     <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
+    <div id="countdown" style="font-size: 4em; text-align: center; margin-top: 20px;"></div>
+<div id="timer"></div>
 <div id="stickerMenu" style="display: none;">
     <img src="wonie-new-enha.png" class="stickerOption">
     <img src="sunoo enha-new pic.png" class="stickerOption">
@@ -69,7 +74,14 @@
 
 <br>
 <button id="addStickerBtn" class="custom-button">Add Kpop Idol Sticker</button>
-<button id="takePhotoBtn" class="custom-button">Take Photo</button>
+<div class="custom-button">
+    <button id="addFilterBtn" class="custom-button">Choose Your Filter</button>
+    <button class="custom-button" onclick="applyFilter"('none')">None</button>
+    <button class="custom-button" onclick="applyFilter"('grayscale')">Grayscale</button>
+    <button class="custom-button" onclick="applyFilter"('sepia')">Sepia</button>
+    <button class="custom-button" onclick="applyFilter"('brightness')">Brightness</button>
+</div>
+<button id="startBtn" class="custom-button">Take Photo</button>
 <br><br>
 
 <div id="photostripContainer" class="photostrip">
@@ -83,10 +95,13 @@
     <h3 class="title">
         <span class="main">PHOTOBOX</span>
         <span class="sub">KPOP EDITION</span>
+    </h3>
 </div>
 <button id="downloadBtn" class="custom-button">Download Photostrip</button>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.js"></script>
+    
 <script>
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
@@ -145,8 +160,37 @@ document.querySelectorAll('.stickerOption').forEach((img, index) => {
     }
     )}
 )
+function applyFilter(filterClass) {
+    video.className = '';
+    if (filterClass === 'grayscale') video.style.filter = 'grayscale(100%)';
+    else if (filterClass === 'sepia') video.style.filter = 'sepia(100%)';
+    else if (filterClass === 'brightness') video.style.filter = 'brightness(1.5)';
+    else video.style.filter = 'none';
+}
 
-document.getElementById('takePhotoBtn').addEventListener('click', capturePhoto);
+document.getElementById('startBtn').addEventListener('click', startCountdown);
+
+function startCountdown() {
+    const countdownEl = document.getElementById("countdown");
+    let count = 3;
+
+    countdownEl.textContent = count;
+
+    const interval = setInterval(() => {
+        count--;
+        if (count > 0) {
+            countdownEl.textContent = count;
+        } else {
+            clearInterval(interval);
+            countdownEl.textContent = "Smile!";
+
+            setTimeout(() => {
+                countdownEl.textContent = "";
+                capturePhoto();
+            }, 1000);
+        }
+    }, 1000);
+}
 
 let photoSlot = 1;
 function capturePhoto() {
@@ -157,12 +201,12 @@ function capturePhoto() {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
 
+    ctx.save();
     ctx.translate(canvas.width, 0);
     ctx.scale(-1, 1);
-
+    ctx.filter = video.style.filter || "none";
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.restore();
 
     if (selectedSticker) {
         const img = new Image();
@@ -172,27 +216,30 @@ function capturePhoto() {
             const stickerHeight = canvas.height;
             const stickerWidth = (img.width / img.height) * stickerHeight;
 
-            ctx.drawImage(
-                img,
-                canvas.width - stickerWidth,
-                0,
-                stickerWidth,
-                stickerHeight
-            );
+            const xPos = canvas.width - stickerWidth;
+            const yPos = 0;
 
-            const photoId = `photo${photoSlot}`;
-            const photoElement = document.getElementById(photoId);
-            photoElement.src = canvas.toDataURL("image/png");
+            ctx.filter = video.style.filter || "none"
+            ctx.drawImage(img, xPos, yPos, stickerWidth, stickerHeight);
+            ctx.filter = "none";
 
-            if (photoSlot < 3) {
-                photoSlot++;
-            } else {
-                photoSlot = 1;
-            }
+            finalizePhoto();
         };
+    } else {
+        finalizePhoto();
+    }
+
+    function finalizePhoto() {
+        const photoId = `photo${photoSlot}`;
+        const photoElement = document.getElementById(photoId);
+        photoElement.src = canvas.toDataURL("image/png");
+
+        if (photoSlot < 5) photoSlot++;
+        else photoSlot = 1;
     }
 }
-document.getElementById("downloadBtn").addEventListener("click", function(){
+
+document.getElementById("downloadBtn").addEventListener("click", function() {
     const container = document.getElementById("photostripContainer");
 
     if (!container) {
@@ -205,16 +252,15 @@ document.getElementById("downloadBtn").addEventListener("click", function(){
         link.download = "photostrip.png";
         link.href = canvas.toDataURL("image/png");
         link.click();
-    });
 
-    setTimeout(() => {
-        window.location.href = "thanku.html";
-    }, 1000);
+        setTimeout(() => {
+            window.location.href = "thanku.html";
+        }, 1000);
+    });
 });
 </script>
-
 </body>
-
 </html>
+
 
 
